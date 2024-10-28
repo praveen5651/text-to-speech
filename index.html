@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praveen's Text To Speech AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: url('https://i.imgur.com/yaialkS.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            animation: rainbow 5s linear infinite;
+        }
+
+        #text-input {
+            width: 80%;
+            max-width: 600px;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: 2px solid #4a90e2;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        #text-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #007bff;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #4a90e2;
+        }
+
+        /* Animation for rainbow title */
+        @keyframes rainbow {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
+
+        /* Profile Card */
+        .profile-card {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .profile-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+        function runTTS() {
+            const inputText = document.getElementById('text-input').value;
+            const loadingText = document.getElementById('loading');
+
+            loadingText.style.display = 'block';  // Show loading text
+            loadingText.classList.add('fade-in'); // Add fade-in animation
+
+            // Wait for 2 seconds, then call the TTS
+            setTimeout(() => {
+                fetch('/run-tts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `text=${encodeURIComponent(inputText)}` // Send the text as form data
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data); // Optional: Log the response from the server
+                    alert(data); // Show an alert with the response
+                    loadingText.style.display = 'none'; // Hide loading text
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingText.style.display = 'none'; // Hide loading text on error
+                });
+            }, 300);
+        }
+    </script>
+</head>
+<body>
+    <h1>Praveen's Text To Speech AI 🙌💖</h1>
+    <input type="text" id="text-input" placeholder="Enter text to speak">
+    <button onclick="runTTS()">Click Me!.😁</button>
+    <div id="loading" class="loading">Loading, please wait...</div>
+
+    <div class="profile-card">
+        <img src="https://media.licdn.com/dms/image/v2/D5603AQGXxfURcqFWEA/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1703730425363?e=1735776000&v=beta&t=sO0bYxbBX1XV9uwb1M7ik8vMvL0wnB-yrhBERXtpMZM" alt="Praveen's Picture">
+        <h3>Praveen Kumar ❤</h3>
+        <p><a href="https://www.linkedin.com/in/vishwanadhula-praveen-kumar/" target="_blank">LinkedIn</a></p>
+        <p>Mobile: +91 7286814512</p>
+    </div>
+</body>
+</html>
